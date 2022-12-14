@@ -1,14 +1,13 @@
 import './App.css';
-import Header from './Header';
-import Articles from './Articles';
+import CreateArticle from './CreateArticle';
 
 function App() {
 
   return (
     <>
-      <Header />
-      <Articles />
-      {/* <CreateArticle /> */}
+      {/* <Header /> */}
+      {/* <Articles /> */}
+      <CreateArticle />
     </>
   );
 }

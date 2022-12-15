@@ -1,3 +1,5 @@
+import Header from "../components/Header";
+
 const CreateArticle = () => {
 
     // créer un formulaire avec un champ title et un champ content
@@ -25,22 +27,26 @@ const CreateArticle = () => {
     }
 
     return (
-        <div>
-            <h1>Page de création d'article</h1>
+        <>
+        <Header />
+            <div>
+                <h1>Page de création d'article</h1>
 
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Titre
-                    <input type="text" name="title" />
-                </label>
-                <label>
-                    Contenu
-                    <input type="text" name="content" />
-                </label>
-                <button type="submit">Créer l'article</button>
-            </form>
+                <form onSubmit={handleSubmit}>
+                    <label>
+                        Titre
+                        <input type="text" name="title" />
+                    </label>
+                    <label>
+                        Contenu
+                        <input type="text" name="content" />
+                    </label>
+                    <button type="submit">Créer l'article</button>
+                </form>
 
-        </div>
+            </div>
+        </>
+        
     )
 }
 

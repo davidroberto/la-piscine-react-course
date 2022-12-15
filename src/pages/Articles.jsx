@@ -3,68 +3,64 @@ import Header from "../components/Header";
 import { Link } from "react-router-dom";
 
 const Articles = () => {
+  const [articles, setArticles] = useState([]);
 
-    // créé un espace mémoire pour stocker des données
-    // pour accéder à la valeur de l'espace mémoire, j'utilise la variable articles
-    // pour modifier la valeur de l'espace mémoire, j'utilise la fonction setArticles
-    // si l'espace mémoire n'existe pas encore, ça le créé avec en valeur un tableau vide
+  const handleDelete = async (id) => {
+    await fetch("http://localhost:5000/api/articles/" + id, {
+      method: "DELETE",
+    });
 
-    // si ça existe, ça récupère la valeur de l'espace mémoire
-    const [articles, setArticles] = useState([]);
+    // permet de sortir de la liste l'article qui a été supprimé
+    setArticles(articles.filter((article) => article.id !== id));
+  };
 
-    useEffect(() => {
-        (async () => {
-            // const response = await fetch('http://localhost:5000/api/articles');
-            // const articles = await response.json();
+  useEffect(() => {
+    (async () => {
+      // const response = await fetch('http://localhost:5000/api/articles');
+      // const articles = await response.json();
 
+      const fakeArticlesFromApi = [
+        {
+          id: 1,
+          title: "Article 1",
+          content: "Contenu de l'article 1",
+        },
+        {
+          id: 2,
+          title: "Article 2",
+          content: "Contenu de l'article 2",
+        },
+        {
+          id: 3,
+          title: "Article 3",
+          content: "Contenu de l'article 3",
+        },
+      ];
+      setArticles(fakeArticlesFromApi);
+    })();
+  }, []);
 
-            const articles = [
-                {
-                    id: 1,
-                    title: 'Article 1',
-                    content: 'Contenu de l\'article 1'
-                },
-                {
-                    id: 2,
-                    title: 'Article 2',
-                    content: 'Contenu de l\'article 2'
-                },
-                {
-                    id: 3,
-                    title: 'Article 3',
-                    content: 'Contenu de l\'article 3'
-                },
-            ]
+  return (
+    <>
+      <Header />
 
-            // fonction qui permet de mettre à jour la valeur stockée dans le state
-            // quand la valeur du state est modifiée, ça déclenche un nouveau rendu du composant
-            // c'est à dire, la fonction du composant est exécutée à nouveau
-            setArticles(articles);
-        })();
-    }, []);
-
-
-    return (
-        <>
-            <Header />
-    
-            <div>
-                <h1>Articles</h1>
-                <div>
-                    {articles.map((article) => {
-                        return (
-                            <div key={article.id}>
-                                <Link to={"/article/show/" +article.id}>Lien vers l'article</Link>
-                                <h2>{article.title}</h2>
-                                <p>{article.content}</p>
-                            </div>
-                        )
-                    })}
-                </div>
-            </div>
-        </>
-
-    );
-}
+      <div>
+        <h1>Articles</h1>
+        <div>
+          {articles.map((article) => {
+            return (
+              <div key={article.id}>
+                <Link to={"/article/show/" + article.id}>Lien vers l'article</Link>
+                <button onClick={() => handleDelete(article.id)}>Supprimer</button>
+                <h2>{article.title}</h2>
+                <p>{article.content}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default Articles;

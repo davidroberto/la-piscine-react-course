@@ -1,9 +1,18 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Header from "../components/Header";
 
-const CreateArticle = () => {
-  // créer un formulaire avec un champ title et un champ content
-  // lors du submit du formulaire, on envoie les données du formulaire au serveur avec
-  // une requête fetch de type POST sur l'URL http://localhost:5000/api/articles
+const UpdateArticle = () => {
+  const { id } = useParams();
+  const [article, setArticle] = useState({});
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch("http://localhost:5000/api/articles/" + id);
+      const article = await response.json();
+      setArticle(article);
+    })();
+  }, [id]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -12,7 +21,7 @@ const CreateArticle = () => {
     const content = event.target.content.value;
 
     fetch("http://localhost:5000/api/articles", {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -32,11 +41,11 @@ const CreateArticle = () => {
         <form onSubmit={handleSubmit}>
           <label>
             Titre
-            <input type="text" name="title" />
+            <input type="text" name="title" value={article.title} />
           </label>
           <label>
             Contenu
-            <input type="text" name="content" />
+            <input type="text" name="content" value={article.content} />
           </label>
           <button type="submit">Créer l'article</button>
         </form>
@@ -45,4 +54,4 @@ const CreateArticle = () => {
   );
 };
 
-export default CreateArticle;
+export default UpdateArticle;
